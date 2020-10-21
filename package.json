@@ -1,0 +1,42 @@
+{
+  "name": "susanoo",
+  "version": "0.1.0",
+  "description": "Susanoo CLI",
+  "license": "MIT",
+  "esy": {
+    "build": "dune build -p #{self.name}",
+    "buildDev": "refmterr dune build --promote-install-files --root . --only-package #{self.name}",
+    "NOTE": "Optional release Section. Customizes result of `esy release`",
+    "release": {
+      "rewritePrefix": true,
+      "bin": [
+        "Main"
+      ]
+    },
+    "buildEnv": {
+      "ODOC_SYNTAX": "re"
+    }
+  },
+  "scripts": {
+    "run": "esy x Main",
+    "format": "esy dune build @fmt --auto-promote",
+    "doc": "esy dune build @doc"
+  },
+  "dependencies": {
+    "@opam/dune": ">=2.6",
+    "@reason-native/console": "*",
+    "@reason-native/pastel": "*",
+    "@esy-ocaml/reason": ">= 3.6.0 < 4.0.0",
+    "ocaml": "~4.10.0",
+    "@opam/core": "*",
+    "@opam/cmdliner": "*",
+    "@opam/re": "*",
+    "refmterr": "*"
+  },
+  "devDependencies": {
+    "@opam/merlin": "*",
+    "@reason-native/rely": "*",
+    "@opam/odoc": "*",
+    "@opam/ocaml-lsp-server": "ocaml/ocaml-lsp:ocaml-lsp-server.opam"
+  }
+}

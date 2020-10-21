@@ -1,0 +1,6 @@
+(executable
+ (name Main)
+ (public_name Main)
+ (libraries console.lib core cmdliner re))
+
+(include_subdirs unqualified)
