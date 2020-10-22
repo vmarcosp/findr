@@ -1,6 +1,6 @@
 (executable
  (name Main)
  (public_name Main)
- (libraries console.lib core cmdliner re))
+ (libraries console.lib core cmdliner re pastel.lib))
 
 (include_subdirs unqualified)

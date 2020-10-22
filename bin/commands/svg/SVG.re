@@ -50,14 +50,14 @@ let format_file = (converter, filename, _) => {
     | ReasonReact => "bsrefmt --in-place " ++ filename
     };
 
-  switch (Sys.command(format_command)) {
-  | 0 => ()
-  | _ => Console.log("You need install the formatter global.")
+  switch (converter, Sys.command(format_command)) {
+  | (_, 0) =>
+    let _ = Sys.command("clear");
+    ();
+  | (React, _) => SVGMessages.prettier_message()
+  | (ReasonReact, _) => SVGMessages.bsrefmt_message()
   };
 };
-
-let show_created_message = (filename, _) =>
-  Console.log("🚀 Created successfully: " ++ filename);
 
 let exec_command = (svg_file, converter_type_raw, component_name, output_dir) => {
   let result = Fs.read_content(svg_file);
@@ -69,15 +69,18 @@ let exec_command = (svg_file, converter_type_raw, component_name, output_dir) =>
   let isSvgFile = valid_svg_exntesion(svg_file);
 
   switch (result, isSvgFile) {
-  | (_, false) => Console.log("The selected file is not a svg.")
-  | (Error(_), _) => Console.log("Something went wrong")
+  | (_, false) => SVGMessages.invalid_svg(svg_file)
+  | (Error(_), _) => SVGMessages.unexpected_error()
   | (Ok(content), true) =>
+    let _ = SVGMessages.loading(svg_file);
+
     content
     |> normalize_props
     |> create_template(converter, component_name)
     |> Fs.write_file(~filename)
-    |> format_file(converter, filename)
-    |> show_created_message(filename)
+    |> format_file(converter, filename);
+
+    SVGMessages.success(filename);
   };
 };
 
