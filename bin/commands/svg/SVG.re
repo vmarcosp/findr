@@ -24,7 +24,7 @@ let create_reason_react_component = svg_content =>
     reasonReact |> Re.replace_string(~by=svg_content, content_key)
   );
 
-let get_filename = (name, converter) =>
+let add_extension = (name, converter) =>
   switch (converter) {
   | React => name ++ ".js"
   | ReasonReact => name ++ ".re"
@@ -36,29 +36,48 @@ let create_template = (converter, component_name, svg_content) =>
   | ReasonReact => create_reason_react_component(svg_content)
   };
 
-let validSvgExtension = filename =>
+let valid_svg_exntesion = filename =>
   filename
   |> String.split_on_char('.')
   |> Base.List.last
   |> Option.map(extension => extension == "svg")
   |> Optional.with_default(_, false);
 
+let format_file = (converter, filename, _) => {
+  let format_command =
+    switch (converter) {
+    | React => "prettier --write " ++ filename
+    | ReasonReact => "bsrefmt --in-place " ++ filename
+    };
+
+  switch (Sys.command(format_command)) {
+  | 0 => ()
+  | _ => Console.log("You need install the formatter global.")
+  };
+};
+
+let show_created_message = (filename, _) =>
+  Console.log("🚀 Created successfully: " ++ filename);
+
 let exec_command = (svg_file, converter_type_raw, component_name, output_dir) => {
   let result = Fs.read_content(svg_file);
   let output = Optional.(output_dir @?> ".");
   let converter = converter_of_string(converter_type_raw);
-  let filename = get_filename(component_name, converter);
+  let filename =
+    component_name |> add_extension(_, converter) |> Fs.make_path(output);
 
-  let isSvgFile = validSvgExtension(svg_file);
+  let isSvgFile = valid_svg_exntesion(svg_file);
 
   switch (result, isSvgFile) {
-  | (_, false) => Console.log("Este arquivo não é .svg")
-  | (Error(_), _) => Console.log("Ocorreu um erro ao ler o arquivo.")
+  | (_, false) => Console.log("The selected file is not a svg.")
+  | (Error(_), _) => Console.log("Something went wrong")
   | (Ok(content), true) =>
     content
     |> normalize_props
     |> create_template(converter, component_name)
-    |> Fs.write_file(~path=output, ~name=filename)
+    |> Fs.write_file(~filename)
+    |> format_file(converter, filename)
+    |> show_created_message(filename)
   };
 };
 

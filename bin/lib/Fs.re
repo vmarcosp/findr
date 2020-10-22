@@ -26,11 +26,12 @@ let read_content = filename =>
   | Sys_error(_) as e => Error(e)
   };
 
-let write_file = (~path, ~name, content) => {
-  let completePath = path ++ "/" ++ name;
-  let outChannel = open_out(completePath);
+let write_file = (~filename, content) => {
+  let outChannel = open_out(filename);
 
   Printf.fprintf(outChannel, "%s", content);
 
   close_out(outChannel);
 };
+
+let make_path = (path, name) => path ++ "/" ++ name;
