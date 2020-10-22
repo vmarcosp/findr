@@ -1,3 +1,5 @@
+module List = Core.List;
+
 let items = [
   ("accent-height", "accentHeight"),
   ("alignment-baseline", "alignmentBaseline"),
@@ -81,3 +83,10 @@ let items = [
   ("xml:lang", "xmlLang"),
   ("xml:space", "xmlSpace"),
 ];
+
+let replace_prop = (currentText, (key, value)) => {
+  let regex = Re.Perl.compile_pat(key);
+  Re.replace_string(~by=value, ~all=true, regex, currentText);
+};
+
+let normalize_props = text => items |> List.fold(~init=text, ~f=replace_prop);
