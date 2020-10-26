@@ -1,6 +1,8 @@
-type lineContent = {mutable lines: string};
+type line_content = {mutable lines: string};
 
-type loopFlag = {mutable content: bool};
+type loop_flag = {mutable content: bool};
+
+let (+/) = (path, file) => path ++ "/" ++ file;
 
 let concat_lines = inChannel => {
   let content = {lines: ""};
@@ -33,5 +35,7 @@ let write_file = (~filename, content) => {
 
   close_out(outChannel);
 };
+
+let read_dir = dir => dir |> Sys.readdir |> Array.to_list;
 
 let make_path = (path, name) => path ++ "/" ++ name;
