@@ -1,8 +1,6 @@
 open FinderTypes;
 
-let divider = <Pastel dim=true> {|
-
-|} </Pastel>;
+let divider = <Pastel dim=true> "\n" "\n" </Pastel>;
 
 let print_content = ({file_content, text_regex, text, filename, matches}) => {
   let file =
