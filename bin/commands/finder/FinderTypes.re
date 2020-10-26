@@ -5,3 +5,8 @@ type finder_content = {
   matches: int,
   text: string,
 };
+
+type file = {
+  filename: string,
+  matches: list(string),
+};

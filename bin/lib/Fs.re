@@ -25,7 +25,7 @@ let read_content = filename =>
     let in_channel = open_in(filename);
     concat_lines(in_channel);
   }) {
-  | Sys_error(_) as e => Error(e)
+  | Sys_error(_) => Error("Something went wrong")
   };
 
 let write_file = (~filename, content) => {
