@@ -39,3 +39,5 @@ let write_file = (~filename, content) => {
 let read_dir = dir => dir |> Sys.readdir |> Array.to_list;
 
 let make_path = (path, name) => path ++ "/" ++ name;
+
+let is_file = Composable.not(Sys.is_directory);

@@ -6,7 +6,12 @@ let () =
   Term.(
     eval_choice(
       default_command,
-      [SVG.svg_component_cmd, SVG.svg_jsx_cmd, Finder.command],
+      [
+        SVG.svg_component_cmd,
+        SVG.svg_jsx_cmd,
+        Finder.command,
+        Replace.command,
+      ],
     )
     |> exit
   );
