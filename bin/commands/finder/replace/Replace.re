@@ -14,8 +14,8 @@ let create_confirm_message = (total_matches, total_files) => {
   );
 };
 
-let replace_text_files = (text, new_text, {filename, _}) => {
-  let text_regex = Re.Perl.compile_pat(text);
+let replace_text_files = (text, regex_mode, new_text, {filename, _}) => {
+  let text_regex = FinderLibrary.create_regex(regex_mode, text);
   let read_result = Fs.read_content(filename);
 
   switch (read_result) {
@@ -48,7 +48,7 @@ let replace_text = (regex_mode, text, new_text, maybe_folder) => {
 
   if (confirmation) {
     files
-    |> List.map(~f=replace_text_files(text, new_text))
+    |> List.map(~f=replace_text_files(text, regex_mode, new_text))
     |> List.filter(~f=updated => updated)
     |> List.length
     |> ReplaceConsole.replaced_message;

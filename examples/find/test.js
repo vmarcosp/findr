@@ -1,3 +1,5 @@
-export const myFunc = a => a + b;
 
-export const myFuncao = a => a + b;
+
+export const caralho = a => a + b;
+
+export const myFunccao = a => a + b;
