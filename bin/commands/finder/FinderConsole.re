@@ -34,11 +34,12 @@ let print_file_matches = (files, index, {filename, matches}) => {
   );
 };
 
-let count_matches = (total, {matches, _}) => total + List.length(matches);
+let print_all_matches = files =>
+  List.iteri(files, ~f=print_file_matches(files));
 
 let print_stats = (files, folder, text) => {
-  let matches =
-    files |> List.fold(~init=0, ~f=count_matches) |> Int.to_string;
+  let matches = FinderLibrary.count_matches(files) |> Int.to_string;
+
   Console.log(
     <Pastel>
       <Pastel bold=true italic=true color=Blue> "\n Stats:\n" </Pastel>

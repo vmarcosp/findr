@@ -11,3 +11,6 @@ let folder_arg =
   Arg.(
     value & opt(some(string), None) & info(["folder"], ~doc="The folder")
   );
+
+let regex_mode_arg =
+  Arg.(value & flag & info(["regex"], ~doc="Enable regex mode"));

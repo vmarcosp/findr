@@ -10,3 +10,7 @@ type file = {
   filename: string,
   matches: list(string),
 };
+
+type match_mode =
+  | Find
+  | Replace(string);
