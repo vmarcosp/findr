@@ -43,17 +43,14 @@ let replace_text = (regex_mode, text, new_text, maybe_folder) => {
   ReplaceConsole.replace_stats(total_matches, total_files, text, new_text);
   FinderConsole.print_all_matches(files);
 
-  let* confirmation =
-    create_confirm_message(total_matches, total_files) |> Inquire.confirm;
+  let* {value, _} = ReplaceUI.Actions.render();
 
-  if (confirmation) {
-    files
-    |> List.map(~f=replace_text_files(text, regex_mode, new_text))
-    |> List.filter(~f=updated => updated)
-    |> List.length
-    |> ReplaceConsole.replaced_message;
-    ();
-  };
+  let () =
+    switch (value) {
+    | ReplaceAll => Console.log("Replace all")
+    | SelectMatches => Console.log("Select occurrences")
+    | Cancel => Console.log("cancel")
+    };
 
   Lwt.return();
 };

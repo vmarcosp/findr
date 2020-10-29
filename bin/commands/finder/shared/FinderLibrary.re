@@ -24,7 +24,7 @@ let rec get_files = (parent, files) =>
 let create_line = (index, line) => {
   let line_number =
     <Pastel color=Green> {(index + 1 |> Int.to_string) ++ " "} </Pastel>;
-  Printf.sprintf(" %5s %s ", line_number, line);
+  Printf.sprintf(" %s %s ", line_number, line);
 };
 
 let create_additional_line = (line_number, maybe_content) =>
@@ -32,8 +32,10 @@ let create_additional_line = (line_number, maybe_content) =>
   | None => ""
   | Some(line_content) =>
     Printf.sprintf(
-      " %5s  %s ",
-      <Pastel dim=true> {line_number + 1 |> Int.to_string} </Pastel>,
+      " %d %s ",
+      {
+        line_number + 1;
+      },
       line_content,
     )
   };
@@ -48,7 +50,7 @@ let create_hightlight_text = (match_mode, text) =>
   switch (match_mode) {
   | Find => <Pastel bold=true underline=true color=Green> text </Pastel>
   | Replace(new_value) =>
-    <Pastel>
+    <Pastel dim=false>
       <Pastel strikethrough=true bold=true color=Red> text </Pastel>
       <Pastel bold=true underline=true color=Green> new_value </Pastel>
     </Pastel>
@@ -62,7 +64,6 @@ let get_file_matches = (match_mode, lines, text_regex, index, matches, line) => 
   if (lines == [] || line_matches == []) {
     matches;
   } else {
-    let _ = Base.List.iter(line_matches, ~f=Console.log);
     let previous_line =
       Base.List.nth(lines, previous_line_number)
       |> create_additional_line(previous_line_number);

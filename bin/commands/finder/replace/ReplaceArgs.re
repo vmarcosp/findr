@@ -1,7 +1,5 @@
 open Cmdliner;
 
-let (>>=) = Lwt.(>>=);
-
 let text_arg =
   Arg.(
     value

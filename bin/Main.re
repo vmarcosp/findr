@@ -2,7 +2,7 @@ open Cmdliner;
 
 let default_command = (Term.const(), Term.info("Susanoo CLI"));
 
-let () =
+let _ =
   Term.(
     eval_choice(
       default_command,
