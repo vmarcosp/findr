@@ -1,4 +1,2 @@
-
-
-
-const marcolas = a => a + 1;
+const marcola = a;
+const marcola = a;
