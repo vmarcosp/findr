@@ -1,0 +1,83 @@
+open Lwt.Syntax;
+open LTerm_text;
+open LTerm_style;
+open UIShared;
+
+type checkbox('a) = {
+  label: string,
+  checked: bool,
+  value: 'a,
+};
+
+let to_checkbox = (current, index, {checked, label, _}) => {
+  let is_current = current == index;
+  [
+    B_fg(blue),
+    S(is_current ? "▶︎ " : "  "),
+    E_fg,
+    B_fg(white),
+    S(checked ? "✅" : "⬜️"),
+    E_fg,
+    B_fg(checked ? green : white),
+    S(" " ++ label ++ "\n"),
+    E_fg,
+  ];
+};
+
+let toggle_check = (current, checked, index, checkbox) =>
+  index == current ? {...checkbox, checked} : checkbox;
+
+let rec render_options = (term, options, current) => {
+  let amount_options = List.length(options);
+  let next = increment(amount_options, current);
+  let previous = decrement(current);
+  let checkboxes =
+    options |> Base.List.mapi(~f=to_checkbox(current)) |> List.concat |> eval;
+
+  let* () = LTerm.clear_line_prev(term);
+  let* () = LTerm.move(term, - amount_options, 0);
+  let* () = LTerm.fprints(term, checkboxes);
+  let* value = read_key(term);
+
+  let value =
+    switch (value) {
+    | Up => render_options(term, options, previous)
+    | Down => render_options(term, options, next)
+    | Right =>
+      options
+      |> Base.List.mapi(~f=toggle_check(current, true))
+      |> render_options(term, _, current)
+    | Left =>
+      options
+      |> Base.List.mapi(~f=toggle_check(current, false))
+      |> render_options(term, _, current)
+    | Enter => Lwt.return(options)
+    | CtrlC => Lwt.fail(Failure("Interruption"))
+    };
+
+  value;
+};
+
+let render = (~items, label) => {
+  let checkboxes =
+    items |> Base.List.mapi(~f=to_checkbox(0)) |> List.concat |> eval;
+
+  let* _ = LTerm_inputrc.load();
+  let* term = Lazy.force(LTerm.stdout);
+  let* raw_mode = LTerm.enter_raw_mode(term);
+  let* _ = LTerm.hide_cursor(term);
+
+  let* () = LTerm.printf("✅ %s\n", label);
+  let* () = LTerm.fprints(term, checkboxes);
+
+  Lwt.finalize(
+    () => {
+      let* current = render_options(term, items, 0);
+      Lwt.return(current);
+    },
+    () => {
+      let* _ = LTerm.leave_raw_mode(term, raw_mode);
+      LTerm.show_cursor(term);
+    },
+  );
+};
