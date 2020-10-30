@@ -11,7 +11,7 @@ let concat_lines = in_channel => {
   try(
     while (continue.content) {
       let line = input_line(in_channel);
-      content.lines = content.lines ++ "\n" ++ line;
+      content.lines = content.lines ++ line ++ "\n";
     }
   ) {
   | End_of_file => continue.content = false
