@@ -1,4 +1,5 @@
-open Lwt.Syntax;
+open LetSyntax;
+
 let decrement = current =>
   switch (current) {
   | 0 => 0
@@ -20,7 +21,7 @@ type key =
   | CtrlC;
 
 let rec read_key = term => {
-  let* event = LTerm.read_event(term);
+  let.lwt event = LTerm.read_event(term);
 
   switch (event) {
   | LTerm_event.Key({

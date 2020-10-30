@@ -1,4 +1,4 @@
-open Lwt.Syntax;
+open LetSyntax;
 open LTerm_text;
 open LTerm_style;
 open UIShared;
@@ -34,10 +34,10 @@ let rec render_options = (term, options, current) => {
   let checkboxes =
     options |> Base.List.mapi(~f=to_checkbox(current)) |> List.concat |> eval;
 
-  let* () = LTerm.clear_line_prev(term);
-  let* () = LTerm.move(term, - amount_options, 0);
-  let* () = LTerm.fprints(term, checkboxes);
-  let* value = read_key(term);
+  let.lwt () = LTerm.clear_line_prev(term);
+  let.lwt () = LTerm.move(term, - amount_options, 0);
+  let.lwt () = LTerm.fprints(term, checkboxes);
+  let.lwt value = read_key(term);
 
   let value =
     switch (value) {
@@ -58,26 +58,28 @@ let rec render_options = (term, options, current) => {
   value;
 };
 
-let render = (~items, label) => {
+let only_checked = items => items |> List.filter(item => item.checked);
+
+let render = (~options as items, label) => {
   let checkboxes =
     items |> Base.List.mapi(~f=to_checkbox(0)) |> List.concat |> eval;
 
-  let* _ = LTerm_inputrc.load();
-  let* term = Lazy.force(LTerm.stdout);
-  let* raw_mode = LTerm.enter_raw_mode(term);
-  let* _ = LTerm.hide_cursor(term);
-
-  let* () = LTerm.printf("✅ %s\n", label);
-  let* () = LTerm.fprints(term, checkboxes);
+  let.lwt () = LTerm_inputrc.load();
+  let.lwt term = Lazy.force(LTerm.stdout);
+  let.lwt raw_mode = LTerm.enter_raw_mode(term);
+  let.lwt () = LTerm.hide_cursor(term);
+  let.lwt () = LTerm.printf("✅ %s\n", label);
+  let.lwt () = LTerm.fprints(term, checkboxes);
 
   Lwt.finalize(
     () => {
-      let* current = render_options(term, items, 0);
-      Lwt.return(current);
+      let.lwt items = render_options(term, items, 0);
+      items |> only_checked |> Lwt.return;
     },
     () => {
-      let* _ = LTerm.leave_raw_mode(term, raw_mode);
+      let.lwt _ = LTerm.leave_raw_mode(term, raw_mode);
       LTerm.show_cursor(term);
     },
   );
 };
+

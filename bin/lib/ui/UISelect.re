@@ -1,4 +1,4 @@
-open Lwt.Syntax;
+open LetSyntax;
 open LTerm_text;
 open LTerm_style;
 open UIShared;
@@ -25,14 +25,14 @@ let rec render_options = (term, options, current) => {
   let next = increment(amount_options, current);
   let previous = decrement(current);
 
-  let* () = LTerm.clear_line_prev(term);
-  let* () = LTerm.move(term, - amount_options, 0);
+  let.lwt () = LTerm.clear_line_prev(term);
+  let.lwt () = LTerm.move(term, - amount_options, 0);
 
   let items =
     options |> Base.List.mapi(~f=to_option(current)) |> List.concat |> eval;
 
-  let* () = LTerm.fprints(term, items);
-  let* value = read_key(term);
+  let.lwt () = LTerm.fprints(term, items);
+  let.lwt value = read_key(term);
 
   let value =
     switch (value) {
@@ -47,26 +47,27 @@ let rec render_options = (term, options, current) => {
   value;
 };
 
-let render = (~items, label) => {
+let render = (~options as items, label) => {
   let options =
     items |> Base.List.mapi(~f=to_option(0)) |> List.concat |> eval;
 
-  let* _ = LTerm_inputrc.load();
-  let* term = Lazy.force(LTerm.stdout);
-  let* raw_mode = LTerm.enter_raw_mode(term);
-  let* _ = LTerm.hide_cursor(term);
+  let.lwt _ = LTerm_inputrc.load();
+  let.lwt term = Lazy.force(LTerm.stdout);
+  let.lwt raw_mode = LTerm.enter_raw_mode(term);
+  let.lwt _ = LTerm.hide_cursor(term);
 
-  let* () = LTerm.printf("📌 %s\n", label);
-  let* () = LTerm.fprints(term, options);
+  let.lwt () = LTerm.printf("\n📌 %s\n", label);
+  let.lwt () = LTerm.fprints(term, options);
 
   Lwt.finalize(
     () => {
-      let* current = render_options(term, items, 0);
+      let.lwt current = render_options(term, items, 0);
       Lwt.return(current);
     },
     () => {
-      let* _ = LTerm.leave_raw_mode(term, raw_mode);
+      let.lwt _ = LTerm.leave_raw_mode(term, raw_mode);
       LTerm.show_cursor(term);
     },
   );
 };
+
