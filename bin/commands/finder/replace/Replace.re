@@ -70,6 +70,9 @@ let rec select_files_to_replace = (text, regex_mode, new_text, files) => {
 
 let find_occurrences = (regex_mode, text, new_text, maybe_folder) => {
   let folder = maybe_folder @?> "./";
+
+  UI.loading("Finding occurrences...");
+
   let files =
     FinderLibrary.find_text(
       ~match_mode=Replace(new_text),
@@ -77,20 +80,31 @@ let find_occurrences = (regex_mode, text, new_text, maybe_folder) => {
       text,
       folder,
     );
+
   let total_matches = FinderLibrary.count_matches(files);
   let total_files = List.length(files);
 
-  ReplaceConsole.replace_stats(total_matches, total_files, text, new_text);
-  FinderConsole.print_all_matches(files);
+  if (total_files > 0) {
+    UI.clear();
+    ReplaceConsole.replace_stats(total_matches, total_files, text, new_text);
+    FinderConsole.print_all_matches(files);
+    let.lwt {value, _} = ReplaceUI.Actions.render();
 
-  let.lwt {value, _} = ReplaceUI.Actions.render();
-
-  switch (value) {
-  | ReplaceAll =>
-    files |> replace_occurrences(text, regex_mode, new_text);
+    switch (value) {
+    | ReplaceAll =>
+      files |> replace_occurrences(text, regex_mode, new_text);
+      Lwt.return();
+    | SelectFiles =>
+      select_files_to_replace(text, regex_mode, new_text, files)
+    | Cancel => Lwt.return()
+    };
+  } else {
+    Printf.sprintf(
+      "No matches found for \"%s\"",
+      <Pastel color=Green> text </Pastel>,
+    )
+    |> UI.empty_state;
     Lwt.return();
-  | SelectFiles => select_files_to_replace(text, regex_mode, new_text, files)
-  | Cancel => Lwt.return()
   };
 };
 

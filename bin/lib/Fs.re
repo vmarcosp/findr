@@ -2,7 +2,15 @@ type line_content = {mutable lines: string};
 
 type loop_flag = {mutable content: bool};
 
-let (+/) = (path, file) => path ++ "/" ++ file;
+let (+/) = (path, file) => {
+  let index = Base.String.length(path) - 1;
+  let last_char = Base.String.unsafe_get(path, index);
+
+  switch (last_char) {
+  | '/' => path ++ file
+  | _ => path ++ "/" ++ file
+  };
+};
 
 let concat_lines = in_channel => {
   let content = {lines: ""};
