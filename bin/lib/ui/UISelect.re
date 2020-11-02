@@ -70,4 +70,3 @@ let render = (~options as items, label) => {
     },
   );
 };
-
