@@ -116,7 +116,7 @@ let filter_by_extensions = (maybe_extensions, files) =>
         let extension =
           String.split_on_char('.', filename)
           |> Base.List.last
-          |> Optional.with_default(_, "");
+          |> Infix.Optional.with_default(_, "");
 
         Base.List.mem(extensions, extension, ~equal=(==));
       },
