@@ -1,7 +1,7 @@
 {
-  "name": "susanoo",
+  "name": "fynder",
   "version": "0.0.1",
-  "description": "Susanoo CLI",
+  "description": "Fynder CLI ● A beatiful, simple and minimalist find & replace cli.",
   "license": "MIT",
   "esy": {
     "build": "dune build -p #{self.name}",

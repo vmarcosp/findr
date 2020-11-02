@@ -20,8 +20,8 @@ let exec_command = (text, maybe_folder, regex_mode, extensions) => {
   | [] => UI.empty_state("No files found")
   | files =>
     UI.clear();
-    FinderConsole.print_stats(matched_files, folder, text);
-    files |> List.iteri(FinderConsole.print_file_matches(matched_files));
+    FindConsole.print_stats(matched_files, folder, text);
+    files |> List.iteri(FindConsole.print_file_matches(matched_files));
   };
 };
 

@@ -55,7 +55,7 @@ let rec select_files_to_replace = (text, regex_mode, new_text, files) => {
     let total_files = List.length(selected_files);
 
     UI.clear();
-    FinderConsole.print_all_matches(selected_files);
+    FindConsole.print_all_matches(selected_files);
     let.lwt {value, _} = ConfirmReplace.render(total_files, total_matches);
 
     switch (value) {
@@ -88,7 +88,7 @@ let find_occurrences = (regex_mode, text, new_text, maybe_folder, extensions) =>
   if (total_files > 0) {
     UI.clear();
     ReplaceConsole.replace_stats(total_matches, total_files, text, new_text);
-    FinderConsole.print_all_matches(files);
+    FindConsole.print_all_matches(files);
     let.lwt {value, _} = ReplaceUI.Actions.render();
 
     switch (value) {
