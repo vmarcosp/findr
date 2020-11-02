@@ -1,6 +1,6 @@
 {
   "name": "susanoo",
-  "version": "0.1.0",
+  "version": "0.0.1",
   "description": "Susanoo CLI",
   "license": "MIT",
   "esy": {
@@ -21,14 +21,14 @@
     "@esy-ocaml/reason": ">= 3.6.0 < 4.0.0",
     "@opam/cmdliner": "*",
     "@opam/core": "*",
+    "@opam/re": "*",
+    "refmterr": "*",
+    "@reason-native/console": "*",
+    "@reason-native/pastel": "*",
     "@opam/dune": ">=2.6",
     "@opam/inquire": "0.2.1",
     "@opam/lwt": "5.3.0",
-    "@opam/re": "*",
-    "@reason-native/console": "*",
-    "@reason-native/pastel": "*",
-    "ocaml": "~4.10.0",
-    "refmterr": "*"
+    "ocaml": "~4.10.0"
   },
   "devDependencies": {
     "@opam/merlin": "*",
