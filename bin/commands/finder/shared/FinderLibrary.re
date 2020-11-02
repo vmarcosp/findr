@@ -2,8 +2,6 @@ open FinderTypes;
 
 let new_line_regex = Re.Str.regexp("\n");
 
-let _ = (content, regex) => Re.matches(regex, content) |> List.length;
-
 let rec get_files = (parent, files) =>
   switch (files) {
   | [] => []
@@ -108,15 +106,33 @@ let extract_matches = (match_mode, regex_mode, text, files, filename) => {
   };
 };
 
+let filter_by_extensions = (maybe_extensions, files) =>
+  switch (maybe_extensions) {
+  | None => files
+  | Some(extensions) =>
+    Base.List.filter(
+      files,
+      ~f=filename => {
+        let extension =
+          String.split_on_char('.', filename)
+          |> Base.List.last
+          |> Optional.with_default(_, "");
+
+        Base.List.mem(extensions, extension, ~equal=(==));
+      },
+    )
+  };
+
 let count_matches =
   Base.List.fold(_, ~init=0, ~f=(total, {matches, _}) =>
     total + List.length(matches)
   );
 
-let find_text = (~match_mode, ~regex_mode, text, folder) =>
+let find_text = (~match_mode, ~regex_mode, text, folder, extensions) =>
   folder
   |> Fs.read_dir
   |> get_files(folder)
+  |> filter_by_extensions(extensions)
   |> Base.List.fold(
        ~init=[],
        ~f=extract_matches(match_mode, regex_mode, text),

@@ -9,8 +9,15 @@ let text_arg =
 
 let folder_arg =
   Arg.(
-    value & opt(some(string), None) & info(["folder"], ~doc="The folder")
+    value & opt(some(string), None) & info(["f", "folder"], ~doc="folder")
   );
 
 let regex_mode_arg =
-  Arg.(value & flag & info(["regex"], ~doc="Enable regex mode"));
+  Arg.(value & flag & info(["r", "regex"], ~doc="Enable regex mode"));
+
+let extension_arg =
+  Arg.(
+    value
+    & opt(some(list(string)), None)
+    & info(["e", "extension"], ~doc="Filter by extension")
+  );

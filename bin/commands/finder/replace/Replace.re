@@ -68,7 +68,7 @@ let rec select_files_to_replace = (text, regex_mode, new_text, files) => {
   };
 };
 
-let find_occurrences = (regex_mode, text, new_text, maybe_folder) => {
+let find_occurrences = (regex_mode, text, new_text, maybe_folder, extensions) => {
   let folder = maybe_folder @?> "./";
 
   UI.loading("Finding occurrences...");
@@ -79,6 +79,7 @@ let find_occurrences = (regex_mode, text, new_text, maybe_folder) => {
       ~regex_mode,
       text,
       folder,
+      extensions,
     );
 
   let total_matches = FinderLibrary.count_matches(files);
@@ -108,8 +109,9 @@ let find_occurrences = (regex_mode, text, new_text, maybe_folder) => {
   };
 };
 
-let exec_command = (text, new_text, folder, regex_mode) =>
-  find_occurrences(regex_mode, text, new_text, folder) |> Lwt_main.run;
+let exec_command = (text, new_text, folder, regex_mode, extensions) =>
+  find_occurrences(regex_mode, text, new_text, folder, extensions)
+  |> Lwt_main.run;
 
 let config =
   Term.(
@@ -118,6 +120,7 @@ let config =
     $ by_arg
     $ FinderArgs.folder_arg
     $ FinderArgs.regex_mode_arg
+    $ FinderArgs.extension_arg
   );
 
 let command = (config, Term.info("replace"));
