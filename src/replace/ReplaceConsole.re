@@ -1,7 +1,7 @@
 let replace_stats = (total_matches, total_files, search_text, new_text) =>
   Console.log(
     <Pastel>
-      <Pastel bold=true italic=true color=Blue> "\n Replace stats:\n" </Pastel>
+      <Pastel bold=true italic=true color=Blue> "\n Stats:\n" </Pastel>
       <Pastel>
         " 🔍 Search: "
         <Pastel color=Blue> {"\"" ++ search_text ++ "\""} </Pastel>

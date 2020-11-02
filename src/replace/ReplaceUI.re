@@ -17,10 +17,11 @@ module ConfirmReplace = {
   type options =
     | Confirm
     | SelectFiles;
+
   let options =
     UI.Select.[
-      {label: "Ok", value: Confirm},
-      {label: "Select files", value: SelectFiles},
+      {label: "Yes", value: Confirm},
+      {label: "No, go back to file selection", value: SelectFiles},
     ];
 
   let render = (total_files, total_matches) => {

@@ -45,7 +45,10 @@ let rec select_files_to_replace = (text, regex_mode, new_text, files) => {
   UI.clear();
   let options = files |> List.map(~f=file_to_option);
   let.lwt selected_options =
-    UI.Checkbox.render(~options, "Select one or more files:");
+    UI.Checkbox.render(
+      ~options,
+      "Select one or more files (ctrl + c to cancel):",
+    );
 
   if (selected_options == []) {
     select_files_to_replace(text, regex_mode, new_text, files);
