@@ -2,12 +2,18 @@ open Cmdliner;
 open FinderArgs;
 open FinderTypes;
 
-let exec_command = (text, maybe_folder, regex_mode) => {
+let exec_command = (text, maybe_folder, regex_mode, extensions) => {
   let folder = Optional.(maybe_folder @?> "./");
   UI.loading("Finding occurrences...");
 
   let matched_files =
-    FinderLibrary.find_text(~match_mode=Find, ~regex_mode, text, folder);
+    FinderLibrary.find_text(
+      ~match_mode=Find,
+      ~regex_mode,
+      text,
+      folder,
+      extensions,
+    );
 
   switch (matched_files) {
   | [] => UI.empty_state("No files found")
@@ -19,6 +25,12 @@ let exec_command = (text, maybe_folder, regex_mode) => {
 };
 
 let config =
-  Term.(const(exec_command) $ text_arg $ folder_arg $ regex_mode_arg);
+  Term.(
+    const(exec_command)
+    $ text_arg
+    $ folder_arg
+    $ regex_mode_arg
+    $ extension_arg
+  );
 
 let command = (config, Term.info("finder"));
