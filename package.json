@@ -1,7 +1,7 @@
 {
-  "name": "fynder",
+  "name": "findr",
   "version": "0.0.1",
-  "description": "Fynder CLI ● A beatiful, simple and minimalist find & replace cli.",
+  "description": "Findr CLI ● A simple and beatiful find & replace command-line interface.",
   "license": "MIT",
   "esy": {
     "build": "dune build -p #{self.name}",
@@ -13,7 +13,7 @@
   },
   "scripts": {
     "replace": "esy x Main replace",
-    "finder": "esy x Main finder",
+    "find": "esy x Main find",
     "format": "esy dune build @fmt --auto-promote",
     "doc": "esy dune build @doc"
   },

@@ -19,5 +19,8 @@ let extension_arg =
   Arg.(
     value
     & opt(some(list(string)), None)
-    & info(["e", "extension"], ~doc="Filter by extension")
+    & info(
+        ["e", "extension"],
+        ~doc="Filter files by extension, e.g: re,js,ml",
+      )
   );

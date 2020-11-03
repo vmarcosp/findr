@@ -107,8 +107,8 @@ let find_occurrences = (regex_mode, text, new_text, maybe_folder, extensions) =>
       "No matches found for \"%s\"",
       <Pastel color=Green> text </Pastel>,
     )
-    |> UI.empty_state;
-    Lwt.return();
+    |> UI.empty_state
+    |> Lwt.return;
   };
 };
 

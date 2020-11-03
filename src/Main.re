@@ -1,6 +1,6 @@
 open Cmdliner;
 
-let default_command = (Term.const(), Term.info("Susanoo CLI"));
+let default_command = (Term.const(), Term.info("Fynder CLI"));
 
 let _ =
   Term.(
