@@ -2,6 +2,7 @@ open LetSyntax;
 open LTerm_text;
 open LTerm_style;
 open UIShared;
+open UITypes;
 
 type select_option('a) = {
   label: string,
@@ -40,8 +41,8 @@ let rec render_options = (term, options, current) => {
     | Up => render_options(term, options, previous)
     | Right
     | Down => render_options(term, options, next)
-    | Enter => Lwt.return(List.nth(options, current))
-    | CtrlC => Lwt.fail(Failure("Interruption"))
+    | Enter => Lwt.return(InputValue(List.nth(options, current)))
+    | CtrlC => Lwt.return(Canceled)
     };
 
   value;

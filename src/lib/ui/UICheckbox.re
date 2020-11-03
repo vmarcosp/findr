@@ -2,6 +2,7 @@ open LetSyntax;
 open LTerm_text;
 open LTerm_style;
 open UIShared;
+open UITypes;
 
 type checkbox('a) = {
   label: string,
@@ -27,6 +28,8 @@ let to_checkbox = (current, index, {checked, label, _}) => {
 let toggle_check = (current, checked, index, checkbox) =>
   index == current ? {...checkbox, checked} : checkbox;
 
+let only_checked = items => items |> List.filter(item => item.checked);
+
 let rec render_options = (term, options, current) => {
   let amount_options = List.length(options);
   let next = increment(amount_options, current);
@@ -39,26 +42,24 @@ let rec render_options = (term, options, current) => {
   let.lwt () = LTerm.fprints(term, checkboxes);
   let.lwt value = read_key(term);
 
-  let value =
-    switch (value) {
-    | Up => render_options(term, options, previous)
-    | Down => render_options(term, options, next)
-    | Right =>
-      options
-      |> Base.List.mapi(~f=toggle_check(current, true))
-      |> render_options(term, _, current)
-    | Left =>
-      options
-      |> Base.List.mapi(~f=toggle_check(current, false))
-      |> render_options(term, _, current)
-    | Enter => Lwt.return(options)
-    | CtrlC => Lwt.fail(Failure("Interruption"))
-    };
+  switch (value) {
+  | Up => render_options(term, options, previous)
+  | Down => render_options(term, options, next)
 
-  value;
+  | Right =>
+    options
+    |> Base.List.mapi(~f=toggle_check(current, true))
+    |> render_options(term, _, current)
+
+  | Left =>
+    options
+    |> Base.List.mapi(~f=toggle_check(current, false))
+    |> render_options(term, _, current)
+
+  | Enter => Lwt.return(InputValue(options |> only_checked))
+  | CtrlC => Lwt.return(Canceled)
+  };
 };
-
-let only_checked = items => items |> List.filter(item => item.checked);
 
 let render = (~options as items, label) => {
   let checkboxes =
@@ -74,7 +75,7 @@ let render = (~options as items, label) => {
   Lwt.finalize(
     () => {
       let.lwt items = render_options(term, items, 0);
-      items |> only_checked |> Lwt.return;
+      Lwt.return(items);
     },
     () => {
       let.lwt _ = LTerm.leave_raw_mode(term, raw_mode);
