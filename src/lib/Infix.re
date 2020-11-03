@@ -1,11 +1,11 @@
 module Result = {
-  let withDefault = (maybe, default_value) =>
+  let with_default = (maybe, default_value) =>
     switch (maybe) {
     | Error(_) => default_value
     | Ok(value) => value
     };
 
-  let (@?>) = withDefault;
+  let (<?>) = with_default;
 };
 
 module Optional = {
@@ -15,5 +15,5 @@ module Optional = {
     | None => value
     };
 
-  let (@?>) = with_default;
+  let (<?>) = with_default;
 };

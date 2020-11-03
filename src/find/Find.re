@@ -4,7 +4,7 @@ open FinderTypes;
 open Infix.Optional;
 
 let exec_command = (text, maybe_folder, regex_mode, extensions) => {
-  let folder = maybe_folder @?> "./";
+  let folder = maybe_folder <?> "./";
   UI.loading("Finding occurrences...");
 
   let matched_files =

@@ -78,8 +78,7 @@ let rec select_files_to_replace = (text, regex_mode, new_text, files) => {
 };
 
 let find_occurrences = (regex_mode, text, new_text, maybe_folder, extensions) => {
-  let folder = maybe_folder @?> "./";
-
+  let folder = maybe_folder <?> "./";
   UI.loading("Finding occurrences...");
 
   let files =
