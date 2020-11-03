@@ -1,6 +1,6 @@
 open Cmdliner;
 
-let default_command = (Term.const(), Term.info("Fynder CLI"));
+let default_command = (Term.const(), Term.info("findr"));
 
 let _ =
   Term.(

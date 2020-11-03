@@ -21,7 +21,7 @@ let rec get_files = (parent, files) =>
 
 let create_line = (index, line) => {
   let line_number =
-    <Pastel color=Green> {(index + 1 |> Int.to_string) ++ " "} </Pastel>;
+    <Pastel color=Green> {index + 1 |> Int.to_string} </Pastel>;
   Printf.sprintf(" %s %s ", line_number, line);
 };
 
