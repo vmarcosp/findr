@@ -4,7 +4,7 @@ let text_arg =
   Arg.(
     value
     & pos(0, string, "")
-    & info([], ~doc="The text that you want to search")
+    & info([], ~doc="The text that you want to find")
   );
 
 let folder_arg =
