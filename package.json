@@ -7,7 +7,6 @@
     "build": "dune build -p #{self.name}",
     "buildDev":
       "refmterr dune build --promote-install-files --root . --only-package #{self.name}",
-    "NOTE": "Optional release Section. Customizes result of `esy release`",
     "release": { "rewritePrefix": true, "bin": [ "Main" ] },
     "buildEnv": { "ODOC_SYNTAX": "re" }
   },
