@@ -7,12 +7,12 @@
     "build": "dune build -p #{self.name}",
     "buildDev":
       "refmterr dune build --promote-install-files --root . --only-package #{self.name}",
-    "release": { "rewritePrefix": true, "bin": [ "Main" ] },
+    "release": { "rewritePrefix": true, "bin": [ "findr" ] },
     "buildEnv": { "ODOC_SYNTAX": "re" }
   },
   "scripts": {
-    "replace": "esy x Main replace",
-    "find": "esy x Main find",
+    "replace": "esy x findr replace",
+    "find": "esy x findr find",
     "format": "esy dune build @fmt --auto-promote",
     "doc": "esy dune build @doc"
   },
