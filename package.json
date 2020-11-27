@@ -1,6 +1,6 @@
 {
   "name": "findr",
-  "version": "0.0.1",
+  "version": "0.0.5",
   "description": "Findr CLI ● A simple and beatiful find & replace command-line interface.",
   "license": "MIT",
   "esy": {
@@ -14,7 +14,8 @@
     "replace": "esy x findr replace",
     "find": "esy x findr find",
     "format": "esy dune build @fmt --auto-promote",
-    "doc": "esy dune build @doc"
+    "doc": "esy dune build @doc",
+    "publish": "./scripts/release.sh"
   },
   "dependencies": {
     "@opam/cmdliner": "*",
