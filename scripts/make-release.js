@@ -33,7 +33,7 @@ mkdirpSync(dst);
 for (const file of filesToCopy) {
   const p = path.join(dst, file);
   mkdirpSync(path.dirname(p));
-  fs.copyFileSync(path.oin(src, file), p);
+  fs.copyFileSync(path.join(src, file), p);
 }
 
 fs.copyFileSync(
@@ -73,4 +73,4 @@ const pkgJson = {
 fs.writeFileSync(
   path.join(dst, 'package.json'),
   JSON.stringify(pkgJson, null, 2)
-);j
+);
