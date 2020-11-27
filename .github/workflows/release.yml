@@ -62,8 +62,8 @@ jobs:
         with:
           node-version: 12.x
 
-      - name: Make NPM release skeleton
-        run: node scripts/release-make-skeleton.js
+      - name: Make _release folder
+        run: node scripts/make-release.js
       
       - name: Download linux artifacts
         uses: actions/download-artifact@master
@@ -71,13 +71,13 @@ jobs:
           name: ubuntu-latest
           path: _release/platform-linux-x64
 
-      - name: Download macOS artifacts
+      - name: Download mac artifacts
         uses: actions/download-artifact@master
         with:
           name: macos-latest
           path: _release/platform-darwin-x64
 
-      - name: Release NPM package
+      - name: Release npm package
         if: "startsWith(github.ref, 'refs/tags/v')"
         run: |
           npm config set //registry.npmjs.org/:_authToken=$NPM_AUTH_TOKEN
