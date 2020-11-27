@@ -1,6 +1,6 @@
 <p align="center">
   <br />
-  <img src="./assets/logo.svg" width="250" /> 
+  <img src="./assets/logo.svg" width="500" /> 
 </p>
 <p align="center">
    <a href="#preview">Preview</a> •
@@ -9,7 +9,6 @@
    <a href="#license">License</a> •
    <a href="https://github.com/lukinco/timerlab/blob/master/CONTRIBUTING.md">Contributing</a> •
 </p>
-<br/>
 <br/>
 
 ## Preview
