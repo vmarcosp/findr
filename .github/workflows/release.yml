@@ -5,17 +5,84 @@ on:
 
 jobs:
   build:
-    runs-on: ubuntu-latest
-
+    runs-on: ${{ matrix.os }}
+    strategy:
+      matrix:
+        os: [ubuntu-latest, macos-latest]
+        
     steps:
       - uses: actions/checkout@v2
-      - uses: actions/setup-node@v1
+      - name: Use Node.js 12.x
+        uses: actions/setup-node@v1
+        with:
+          node-version: 12.x
+          registry-url: "https://registry.npmjs.org"
 
+      - name: Cache esy dependencies
+        uses: actions/cache@v1
+        id: cache
+        with:
+          path: _export
+          key: ${{ runner.OS }}-build-${{ hashFiles('esy.lock/index.json') }}
+          restore-keys: |
+            ${{ runner.OS }}-build-${{ env.cache-name }}-
+            ${{ runner.OS }}-build-
+            ${{ runner.OS }}-
+            
       - name: Install esy
-        run: npm i -g esy@latest
+        run: npm i -g esy@0.6.7
 
-      - name: Install and build
-        run: esy && esy npm-release
+      - name: Import dependencies
+        if: steps.cache.outputs.cache-hit == 'true'
+        run: esy import-build _export/*
+
+      - name: Install deps
+        run: esy install
     
-      - name: Update release package
-        run: node scripts/transform-release.js
+      - name: Build app
+        run: esy build
+
+      - name: Export dependencies
+        run: esy export-dependencies
+    
+      - name: Upload artifacts for ${{ matrix.os }}
+        uses: actions/upload-artifact@master
+        with:
+          name: ${{ matrix.os }}
+          path: _build/default/src/findr.exe
+
+  publish:
+   needs: build
+   name: Publish
+   runs-on: ubuntu-latest
+   steps:
+      - uses: actions/checkout@v1
+      - name: Use Node.js 12.x
+        uses: actions/setup-node@v1
+        with:
+          node-version: 12.x
+
+      - name: Make NPM release skeleton
+        run: node scripts/release-make-skeleton.js
+      
+      - name: Download linux artifacts
+        uses: actions/download-artifact@master
+        with:
+          name: ubuntu-latest
+          path: _release/platform-linux-x64
+
+      - name: Download macOS artifacts
+        uses: actions/download-artifact@master
+        with:
+          name: macos-latest
+          path: _release/platform-darwin-x64
+
+      - name: Release NPM package
+        if: "startsWith(github.ref, 'refs/tags/v')"
+        run: |
+          npm config set //registry.npmjs.org/:_authToken=$NPM_AUTH_TOKEN
+          npm config set scope "@vmarcosp"
+          npm publish --access public
+        working-directory: ./_release
+        env:
+          NPM_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
