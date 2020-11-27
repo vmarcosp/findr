@@ -4,10 +4,11 @@
   "description": "Findr CLI ● A simple and beatiful find & replace command-line interface.",
   "license": "MIT",
   "esy": {
-    "build": "dune build -p #{self.name}",
+    "buildsInSource": "_build",
+    "build": "dune build",
     "buildDev":
       "refmterr dune build --promote-install-files --root . --only-package #{self.name}",
-    "release": { "rewritePrefix": true, "bin": [ "findr" ] },
+    "release": {  "bin": [ "findr" ] },
     "buildEnv": { "ODOC_SYNTAX": "re" }
   },
   "scripts": {
