@@ -6,8 +6,7 @@
    <a href="#preview">Preview</a> •
    <a href="#features">Features</a> •
    <a href="#commands">Commands</a> •
-   <a href="#license">License</a> •
-   <a href="https://github.com/lukinco/timerlab/blob/master/CONTRIBUTING.md">Contributing</a> •
+   <a href="#license">License</a> 
 </p>
 <br/>
 
