@@ -1,11 +1,7 @@
 open Cmdliner;
 
 let text_arg =
-  Arg.(
-    value
-    & pos(0, string, "")
-    & info([], ~doc="The text that you want to find")
-  );
+  Arg.(value & pos(0, string, "") & info([], ~doc="Text to find"));
 
 let folder_arg =
   Arg.(
