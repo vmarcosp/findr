@@ -56,11 +56,16 @@ Positional arguments:
 Named arguments:
   - `--folder` or `-f`
   - `--regex` or `-r` regex mode
+  - `--extension` or `-e` filter files by extension
 
 
 Example:
 ```sh
+  # Basic usage
   findr find "write_file" --folder src
+
+  # Filtering by extension
+  findr find "write_file" --folder src --extension re,js
 ```
 
 ### Replace command:
@@ -71,10 +76,15 @@ Positional arguments:
 Named arguments:
   - `--folder` or `-f`
   - `--regex` or `-r` *regex mode*
+  - `--extension` or `-e` filter files by extension
 
 
 Example:
 ```sh
+  # Basic usage
+  findr replace "write_file" "create_file" --folder src
+
+  # Regex mode
   findr replace "\bwrite_file" "create_file" --folder src --regex
 ```
 
