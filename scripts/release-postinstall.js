@@ -6,7 +6,7 @@ const fs = require("fs");
 
 const platform = process.platform;
 
-const binariesToCopy = ["styled-ppx"];
+const binariesToCopy = ["findr.exe"];
 
 function find_arch() {
   // The running binary is 64-bit, so the OS is clearly 64-bit.
@@ -76,15 +76,15 @@ const platformPath = "platform-" + platform + "-" + arch;
 const supported = fs.existsSync(platformPath);
 
 if (!supported) {
-  console.error("styled-ppx does not support this platform :(");
+  console.error("findr does not support this platform :(");
   console.error("");
-  console.error("If you want styled-ppx to support this platform natively,");
+  console.error("If you want fubdr to support this platform natively,");
   console.error(
-    "please open an issue here: https://github.com/davesnx/styled-ppx/issues/new"
+    "please open an issue here: https://github.com/vmarcosp/findr/issues/new"
   );
   console.error("Specify that you are on the " + platform + " platform,");
   console.error("and on the " + arch + " architecture.");
   process.exit(1);
 }
 
-copyPlatformBinaries(platformPath);p
+copyPlatformBinaries(platformPath);
