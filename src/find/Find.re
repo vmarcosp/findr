@@ -34,4 +34,4 @@ let config =
     $ extension_arg
   );
 
-let command = (config, Term.info("findr"));
+let command = (config, Term.info("find"));
