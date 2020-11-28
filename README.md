@@ -15,15 +15,15 @@
 <p align="center">
   <br />
   
+  <p align="center"><b><i>Find command</i></b></p>
   <img src="./assets/find.gif" width="700" /> 
-  <p align="center"><i>Find command</i></p>
 </p>
 <br/>
 <p align="center">
   <br />
  
+  <p align="center"><b><i>Replace command + regex</i></b></p>
   <img src="./assets/replace.gif" width="700" /> 
-  <p align="center"><i>Replace command + regex</i></p>
 </p>
 
 ## Installation
@@ -49,6 +49,34 @@ npm i -g @vmarcosp/findr
 
 ## Commands
 
+### Find command:
+Positional arguments:
+  - 1º *Text to find*
+
+Named arguments:
+  - `--folder` or `-f`
+  - `--regex` or `-r` regex mode
+
+
+Example:
+```sh
+  findr find "write_file" --folder src
+```
+
+### Replace command:
+Positional arguments:
+ - 1º *Text to replace*
+ - 2º *New text*
+
+Named arguments:
+  - `--folder` or `-f`
+  - `--regex` or `-r` *regex mode*
+
+
+Example:
+```sh
+  findr replace "\bwrite_file" "create_file" --folder src --regex
+```
 
 ## License
 
