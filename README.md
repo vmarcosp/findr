@@ -16,14 +16,14 @@
   <br />
   
   <p align="center"><b><i>Find command</i></b></p>
-  <img src="./assets/find.gif" width="700" /> 
+  <p align="center"><img src="./assets/find.gif" width="600" /> </p>
 </p>
 <br/>
 <p align="center">
   <br />
  
   <p align="center"><b><i>Replace command + regex</i></b></p>
-  <img src="./assets/replace.gif" width="700" /> 
+  <p align="center"><img src="./assets/replace.gif" width="600" /> </p>
 </p>
 
 ## Installation
