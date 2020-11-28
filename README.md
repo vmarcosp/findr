@@ -12,6 +12,19 @@
 <br/>
 
 ## Preview
+<p align="center">
+  <br />
+  
+  <img src="./assets/find.gif" width="700" /> 
+  <p align="center"><i>Find command</i></p>
+</p>
+<br/>
+<p align="center">
+  <br />
+ 
+  <img src="./assets/replace.gif" width="700" /> 
+  <p align="center"><i>Replace command + regex</i></p>
+</p>
 
 ## Installation
 ```
