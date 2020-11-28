@@ -83,6 +83,7 @@ Example:
 ```sh
   # Basic usage
   findr replace "write_file" "create_file" --folder src
+
   # Regex mode
   findr replace "\bwrite_file" "create_file" --folder src --regex
 ```
