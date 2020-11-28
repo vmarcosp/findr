@@ -2,6 +2,10 @@ name: Release
 
 on:
  workflow_dispatch:
+  inputs:
+      version:
+        description: 'Tag/Version'     
+        required: true
 
 jobs:
   build:
@@ -79,9 +83,7 @@ jobs:
         with:
           name: macos-latest
           path: _release/platform-darwin-x64
-
-      - uses: actions-ecosystem/action-get-latest-tag@v1
-        id: get-latest-tag
+          
 
       - name: Create archives for Github release
         run: |
@@ -98,8 +100,8 @@ jobs:
         env:
           GITHUB_TOKEN: ${{ secrets.GH_TOKEN }}
         with:
-          tag_name: ${{ steps.get-latest-tag.outputs.tag }}
-          release_name: Release ${{ steps.get-latest-tag.outputs.tag }}
+          tag_name: ${{ github.event.inputs.version }}
+          release_name: Release ${{ github.event.inputs.version }}
           draft: false
           prerelease: false
 
