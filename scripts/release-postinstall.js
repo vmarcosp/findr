@@ -87,4 +87,4 @@ if (!supported) {
   process.exit(1);
 }
 
-copyPlatformBinaries(platformPath);p
+copyPlatformBinaries(platformPath);
