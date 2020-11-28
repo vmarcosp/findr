@@ -33,7 +33,6 @@ npm i -g @vmarcosp/findr
 ## OS Support
 - :white_check_mark: &nbsp; Mac
 - :white_check_mark: &nbsp; Linux
-- :white_check_mark: &nbsp; Linux
 - :gear: &nbsp; Windows *(WIP)*
 
 ## Features
