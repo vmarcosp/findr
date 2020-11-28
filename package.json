@@ -1,15 +1,20 @@
 {
   "name": "findr",
-  "version": "0.0.10",
+  "version": "0.1.0",
   "description": "Findr CLI ● A simple and beatiful find & replace command-line interface.",
   "license": "MIT",
   "esy": {
     "buildsInSource": "_build",
     "build": "dune build",
-    "buildDev":
-      "refmterr dune build --promote-install-files --root . --only-package #{self.name}",
-    "release": {  "bin": [ "findr" ] },
-    "buildEnv": { "ODOC_SYNTAX": "re" }
+    "buildDev": "refmterr dune build --promote-install-files --root . --only-package #{self.name}",
+    "release": {
+      "bin": [
+        "findr"
+      ]
+    },
+    "buildEnv": {
+      "ODOC_SYNTAX": "re"
+    }
   },
   "scripts": {
     "replace": "esy x findr replace",
