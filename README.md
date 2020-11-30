@@ -26,8 +26,15 @@
 </p>
 
 ## Installation
+### Using npm or yarn
 ```
 npm i -g @vmarcosp/findr
+# or
+yarn global add @vmarcosp/findr
+```
+### Using curl + script
+```
+curl -fsSL https://github.com/vmarcosp/findr/raw/master/scripts/install.sh | bash
 ```
 
 ## OS Support
