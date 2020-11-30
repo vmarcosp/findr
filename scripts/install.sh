@@ -60,7 +60,7 @@ download_findr() {
 
   unzip -q "$DOWNLOAD_DIR/$FILENAME.zip" -d "$DOWNLOAD_DIR"
   mv "$DOWNLOAD_DIR/findr.exe" "$INSTALL_DIR/findr"
-  chmod +x "$INSTALL_DIR/findr"
+  chmod u+x "$INSTALL_DIR/findr"
 }
 
 check_dependencies() {
